@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import { getToken } from "@/util/storage-service";
+import ContactsViewVue from "@/views/ContactsView.vue";
 import LoginViewVue from "@/views/LoginView.vue";
 import SignupViewVue from "@/views/SignupView.vue";
 
@@ -11,6 +12,11 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginViewVue,
+      beforeEnter: (to, from) => {
+        if (getToken()) return "/contacts";
+
+        return true;
+      },
     },
     {
       path: "/signup",
@@ -21,6 +27,16 @@ const router = createRouter({
       path: "/logout",
       name: "logout",
       redirect: "login",
+    },
+    {
+      path: "/contacts",
+      name: "contacts",
+      component: ContactsViewVue,
+      beforeEnter: (to, from) => {
+        if (!getToken()) return "/login";
+
+        return true;
+      },
     },
     {
       path: "/:catchAll(.*)", // Unrecognized path automatically matches 404

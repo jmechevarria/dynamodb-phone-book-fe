@@ -8,6 +8,10 @@ const authStore = useAuthStore();
 
 onMounted(() => {
   const token = getToken();
+
+  if (token) {
+    router.push("/contacts");
+  }
 });
 
 const isAuthenticated = computed(() => !!authStore.token);
@@ -36,6 +40,15 @@ const handleLogout = () => {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-grow-1">
+            <li class="nav-item">
+              <RouterLink
+                class="nav-link active"
+                v-if="isAuthenticated"
+                to="/contacts"
+              >
+                Contacts
+              </RouterLink>
+            </li>
             <li v-if="isAuthenticated" class="nav-item dropdown ms-auto">
               <a
                 class="nav-link dropdown-toggle"

@@ -27,6 +27,7 @@ const handleSignup = async (e: Event) => {
       email: email.value,
       password: password.value,
     });
+    router.push("/contacts");
   } catch (error) {
     logAxiosError(error);
   } finally {

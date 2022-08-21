@@ -24,6 +24,7 @@ const handleLogin = async (e: Event) => {
   }
   buttonText.value = "Log in";
   isLoading.value = false;
+  router.push("/contacts");
 };
 </script>
 <template>

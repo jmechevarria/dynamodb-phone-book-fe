@@ -106,6 +106,10 @@ const onItemClick = (contact: Contact) => {
     params: { name: contact.name, phone: contact.phone },
   });
 };
+
+const createContact = async () => {
+  router.push("/contacts/new");
+};
 </script>
 
 <template>
@@ -122,6 +126,15 @@ const onItemClick = (contact: Contact) => {
     <div class="col-auto">
       <button :disabled="isLoading" class="btn btn-primary" @click="loadMore()">
         Next
+      </button>
+    </div>
+    <div class="col-auto ms-auto">
+      <button
+        :disabled="isLoading"
+        class="btn btn-success"
+        @click="createContact()"
+      >
+        New Contact
       </button>
     </div>
   </div>

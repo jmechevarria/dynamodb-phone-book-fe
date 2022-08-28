@@ -4,6 +4,7 @@ import { getToken } from "@/util/storage-service";
 import ContactDetailsViewVue from "@/views/ContactDetailsView.vue";
 import ContactsViewVue from "@/views/ContactsView.vue";
 import LoginViewVue from "@/views/LoginView.vue";
+import NewContactViewVue from "@/views/NewContactView.vue";
 import SignupViewVue from "@/views/SignupView.vue";
 
 const router = createRouter({
@@ -33,6 +34,16 @@ const router = createRouter({
       path: "/contacts",
       name: "contacts",
       component: ContactsViewVue,
+      beforeEnter: (to, from) => {
+        if (!getToken()) return "/login";
+
+        return true;
+      },
+    },
+    {
+      path: "/contacts/new",
+      name: "new-contact",
+      component: NewContactViewVue,
       beforeEnter: (to, from) => {
         if (!getToken()) return "/login";
 

@@ -23,9 +23,13 @@ export const fetchContacts = async (
 
   if (token) {
     const limit = payload.limit || 1;
-    const url = `${import.meta.env.VITE_API_URL}/contacts/?name=${
+    const url = `${
+      import.meta.env.VITE_API_URL
+    }/contacts/?name=${encodeURIComponent(
       payload.name || ""
-    }&phone=${payload.phone || ""}&limit=${limit}&offset=${payload.offset}`;
+    )}&phone=${encodeURIComponent(payload.phone || "")}&limit=${limit}&offset=${
+      payload.offset
+    }`;
 
     const singleContactRequest = payload.name && payload.phone;
     if (singleContactRequest) {

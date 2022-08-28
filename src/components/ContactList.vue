@@ -3,6 +3,7 @@ import { UnauthorizedException } from "@/errors";
 import { onMounted, ref } from "vue";
 
 import { fetchContacts } from "@/api";
+import router from "@/router";
 import { useAuthStore } from "@/stores/auth";
 import type { Contact } from "@/types";
 import { logAxiosError } from "../util/logging-service";
@@ -98,6 +99,13 @@ const loadMore = async (forward = true) => {
 
   isLoading.value = false;
 };
+
+const onItemClick = (contact: Contact) => {
+  router.push({
+    name: "contact-details",
+    params: { name: contact.name, phone: contact.phone },
+  });
+};
 </script>
 
 <template>
@@ -131,6 +139,7 @@ const loadMore = async (forward = true) => {
         v-for="(contact, index) in contacts"
         :key="index"
         :contact="contact"
+        @click:item="onItemClick"
       />
     </tbody>
   </table>

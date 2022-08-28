@@ -7,6 +7,10 @@ const props = defineProps<{
   contact: Contact;
 }>();
 
+const emit = defineEmits<{
+  (e: "click:item", contact: Contact): void;
+}>();
+
 const fullAddress: ComputedRef<string> = computed(() => {
   const { address_lines } = props.contact;
 
@@ -15,7 +19,7 @@ const fullAddress: ComputedRef<string> = computed(() => {
 </script>
 
 <template>
-  <tr class="contact">
+  <tr class="contact" @click="emit('click:item', props.contact)">
     <td>
       {{ props.contact.name }}
     </td>

@@ -27,7 +27,8 @@ export const fetchContacts = async (
       payload.name || ""
     }&phone=${payload.phone || ""}&limit=${limit}&offset=${payload.offset}`;
 
-    if (limit === 1) {
+    const singleContactRequest = payload.name && payload.phone;
+    if (singleContactRequest) {
       const localData = retrieve(url);
 
       if (localData) return localData;
@@ -41,7 +42,7 @@ export const fetchContacts = async (
       },
     });
 
-    if (limit === 1) {
+    if (singleContactRequest) {
       cache(url, data);
     }
 

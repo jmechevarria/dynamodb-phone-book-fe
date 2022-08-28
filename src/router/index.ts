@@ -24,6 +24,11 @@ const router = createRouter({
       path: "/signup",
       name: "signup",
       component: SignupViewVue,
+      beforeEnter: (to, from) => {
+        if (getToken()) return "/contacts";
+
+        return true;
+      },
     },
     {
       path: "/logout",

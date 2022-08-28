@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "click:item", contact: Contact): void;
+  (e: "delete:item", contact: Contact): void;
 }>();
 
 const fullAddress: ComputedRef<string> = computed(() => {
@@ -28,6 +29,14 @@ const fullAddress: ComputedRef<string> = computed(() => {
     </td>
     <td>
       {{ fullAddress }}
+    </td>
+    <td>
+      <button
+        class="btn btn-danger"
+        @click.stop="emit('delete:item', props.contact)"
+      >
+        Delete
+      </button>
     </td>
   </tr>
 </template>

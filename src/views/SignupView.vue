@@ -27,6 +27,7 @@ const handleSignup = async (e: Event) => {
       email: email.value,
       password: password.value,
     });
+
     router.push("/contacts");
   } catch (error) {
     logAxiosError(error);
@@ -69,6 +70,8 @@ const handleSignup = async (e: Event) => {
       <div class="form-floating">
         <input
           v-model="password"
+          minlength="8"
+          maxlength="24"
           class="form-control"
           type="password"
           name="password"
@@ -81,6 +84,8 @@ const handleSignup = async (e: Event) => {
       <div class="form-floating">
         <input
           v-model="passwordRepeat"
+          minlength="8"
+          maxlength="24"
           class="form-control"
           type="password"
           name="passwordRepeat"

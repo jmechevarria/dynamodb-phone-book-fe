@@ -20,7 +20,7 @@ const createNewContact = async (e: Event) => {
       addressLines: addressLines.value,
     });
     router.push("/contacts");
-  } catch (error: Error) {
+  } catch (error: any) {
     logAxiosError(error);
   } finally {
     isLoading.value = false;

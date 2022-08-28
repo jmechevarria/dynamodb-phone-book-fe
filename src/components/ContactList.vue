@@ -2,7 +2,7 @@
 import { UnauthorizedException } from "@/errors";
 import { onMounted, ref } from "vue";
 
-import { fetchContacts } from "@/api";
+import { deleteContacts, fetchContacts } from "@/api";
 import router from "@/router";
 import { useAuthStore } from "@/stores/auth";
 import type { Contact } from "@/types";
@@ -11,7 +11,7 @@ import ContactRow from "./ContactRow.vue";
 
 const isLoading = ref(false);
 const contacts = ref<Contact[]>([]);
-const columns: string[] = ["Name", "Phone", "Address"];
+const columns: string[] = ["Name", "Phone", "Address", "Actions"];
 
 interface PaginationData {
   name: string;
@@ -38,7 +38,7 @@ const authStore = useAuthStore();
 onMounted(async () => {
   try {
     loadMore();
-  } catch (error: Error) {
+  } catch (error: any) {
     logAxiosError(error);
 
     if (
@@ -85,7 +85,7 @@ const loadMore = async (forward = true) => {
         paginationData.page--;
       }
     } else paginationData.lastPage = true;
-  } catch (error: Error) {
+  } catch (error: any) {
     logAxiosError(error);
 
     if (
@@ -109,6 +109,31 @@ const onItemClick = (contact: Contact) => {
 
 const createContact = async () => {
   router.push("/contacts/new");
+};
+
+const onItemDelete = (contact: Contact) => {
+  const index: number = contacts.value.findIndex(
+    (c) => c.name === contact.name && c.phone === contact.phone
+  );
+  contacts.value.splice(index, 1);
+
+  try {
+    deleteContacts({
+      name: contact.name,
+      phone: contact.phone,
+    });
+    // offset--;
+  } catch (error: any) {
+    logAxiosError(error);
+
+    if (
+      error instanceof UnauthorizedException ||
+      error.response?.status == 403 ||
+      error.response?.status == 401
+    ) {
+      authStore.logout();
+    }
+  }
 };
 </script>
 
@@ -153,6 +178,7 @@ const createContact = async () => {
         :key="index"
         :contact="contact"
         @click:item="onItemClick"
+        @delete:item="onItemDelete"
       />
     </tbody>
   </table>

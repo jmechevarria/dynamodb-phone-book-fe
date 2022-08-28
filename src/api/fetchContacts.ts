@@ -35,7 +35,11 @@ export const fetchContacts = async (
     if (singleContactRequest) {
       const localData = retrieve(url);
 
-      if (localData) return localData;
+      if (localData) {
+        console.warn("Used cache");
+
+        return localData;
+      }
     }
 
     console.warn("Hitting server");
